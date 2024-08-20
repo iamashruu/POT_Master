@@ -78,7 +78,7 @@ function extractInfoForMTIAndRRN(fileContent, mtis, rrn, trimStart) {
         }
         if (mtiMatched) {
             isInPassCase = true;
-        } else if (isInPassCase && trimmedLine.includes("End   Dump")) {
+        } else if (isInPassCase && (trimmedLine.includes("End   Dump")  || trimmedLine.includes("End Dump"))) {
             output.push(`<span style="font-size: 0.8em; font-family: Calibri;">${trimmedLine}</span>`);
             output.push("separate");
             isInPassCase = false;
