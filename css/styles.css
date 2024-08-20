@@ -1,0 +1,88 @@
+body {
+    font-family: "Arial", sans-serif;
+    background-color: #f4f4f9;
+    color: #333;
+    margin: 0;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+h1 {
+    color: #4caf50;
+    font-size: 2.5em;
+    margin-bottom: 20px;
+}
+label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+input[type="text"],
+input[type="file"],
+button {
+    width: 100%;
+    max-width: 300px;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+    font-size: 1em;
+}
+input[type="text"]:focus,
+input[type="file"]:focus {
+    border-color: #4caf50;
+    outline: none;
+}
+button {
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-size: 1em;
+}
+button:hover {
+    background-color: #45a049;
+}
+#outputContainer {
+    margin-top: 20px;
+    width: 100%;
+    max-width: 800px;
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    overflow-wrap: break-word;
+    position: relative;
+}
+#output {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+#output p {
+    margin: 0;
+    padding: 5px 0;
+    border-bottom: 1px solid #eee;
+}
+#output p:last-child {
+    border-bottom: none;
+}
+#copyButton {
+    display: none;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: #4caf50;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+#copyButton:hover {
+    background-color: #45a049;
+}
