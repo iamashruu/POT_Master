@@ -9,6 +9,7 @@ export function processFiles() {
     const mtis = mtiInput.value.split(",").map((mti) => mti.trim());
     const rrnInput = document.getElementById("rrnInput");
     const rrn = rrnInput.value.trim();
+    console.log(rrn,typeof rrn)
     
     if (mtis.length === 0 || !rrn) {
         alert("Please enter valid MTIs and RRN.");
@@ -27,6 +28,7 @@ export function processFiles() {
     const searchPatterns = searchPatternsInput
         ? searchPatternsInput.split(",").map((pattern) => pattern.trim())
         : ["End   DumpCis()", "End   DumpVisa()", "End   DumpBank()", "End   DumpSid()", "End   DumpSms()"];
+    // console.log(searchPatterns)
 
     let newData = [];
     let results = [];
@@ -36,11 +38,14 @@ export function processFiles() {
         const reader = new FileReader();
         reader.onload = function () {
             const fileContent = reader.result;
-            const output = extractInfoForMTIAndRRN(fileContent, mtis, rrn, trimStart);
+            const output = extractInfoForMTIAndRRN(fileContent, mtis, rrn, trimStart,searchPatterns);
             const separatedOutput = output.join("\n").split("separate");
+            //  console.log(separatedOutput[0])
             let result = separatedOutput.filter(
                 (e) => e.includes(`[${rrn}]`) && searchPatterns.some((pattern) => e.includes(pattern))
             );
+            // console.log(result)
+
             newData = newData.concat(result);
             filesProcessed++;
             if (filesProcessed === files.length) {
@@ -58,7 +63,7 @@ export function processFiles() {
     });
 }
 
-function extractInfoForMTIAndRRN(fileContent, mtis, rrn, trimStart) {
+function extractInfoForMTIAndRRN(fileContent, mtis, rrn, trimStart,searchPatterns) {
     const lines = fileContent.split("\n");
     const output = [];
     let isInPassCase = false;
@@ -78,7 +83,7 @@ function extractInfoForMTIAndRRN(fileContent, mtis, rrn, trimStart) {
         }
         if (mtiMatched) {
             isInPassCase = true;
-        } else if (isInPassCase && (trimmedLine.includes("End   Dump")  || trimmedLine.includes("End Dump"))) {
+        } else if (isInPassCase && (trimmedLine.includes("End   Dump")  || trimmedLine.includes("End Dump") || trimmedLine.includes(`${searchPatterns}`))) {
             output.push(`<span style="font-size: 0.8em; font-family: Calibri;">${trimmedLine}</span>`);
             output.push("separate");
             isInPassCase = false;
@@ -86,10 +91,16 @@ function extractInfoForMTIAndRRN(fileContent, mtis, rrn, trimStart) {
             if (trimmedLine.includes("- FLD (002)")) {
                 trimmedLine = trimmedLine.replace(/(\d{5})\d+(\d{3})/, "$1*******$2");
             }
+            
             if (trimmedLine.includes("- FLD (035)")) {
                 trimmedLine = trimmedLine.replace(/(\d{5})\d{6,12}(\d{3}D)/, "$1*******$2");
                 trimmedLine = trimmedLine.replace(/(\d{5})\d{6,12}(\d{3}=)/, "$1*******$2");
             }
+            if (trimmedLine.includes("- FLD (053)") || trimmedLine.includes("> TAG (9F1E)")) {
+                // Insert a single space in the middle of the 16-digit number without skipping any digits
+                trimmedLine = trimmedLine.replace(/(\d{8})(\d{8})/, "$1 $2");
+            }
+            
             if (trimmedLine.includes(">")) {
                 trimmedLine = `&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;${trimmedLine}`;
             }

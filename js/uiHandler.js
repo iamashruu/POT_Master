@@ -7,11 +7,33 @@ export function displayOutput(output) {
         outputDiv.appendChild(notFoundText);
     } else {
         output.forEach((line) => {
-            const lineElement = document.createElement("p");
-            lineElement.innerHTML = line;
-            outputDiv.appendChild(lineElement);
-        });
+            // Create a temporary element to easily strip any HTML like &nbsp;
+            const tempElement = document.createElement("div");
+            tempElement.innerHTML = line;
+            
+            // Get the text content of the element (this will automatically convert &nbsp; to spaces)
+            const plainText = tempElement.innerText.trim();
+            
+            if (plainText.length === 0) {
+                // The line contains only spaces (or is empty), skip it
+                console.log('Removing blank or space-only line:', line);
+            } else {
+                const lineElement = document.createElement("p");
+                lineElement.innerHTML = line;
+                outputDiv.appendChild(lineElement);
+                console.log('Adding valid line:', line);
+            }
+        });  
     }
+
+     // Flash background color to indicate processing is done
+     outputDiv.classList.add('flash');
+
+     // Remove the flash effect after a brief moment
+     setTimeout(() => {
+         outputDiv.classList.remove('flash');
+     }, 1000); // 1.5 seconds
+
     document.getElementById("copyButton").style.display = output.length > 0 ? "block" : "none";
 }
 
