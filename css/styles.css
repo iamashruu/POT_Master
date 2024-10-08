@@ -70,6 +70,29 @@ button:hover {
 #output p:last-child {
     border-bottom: none;
 }
+
+#output.flash {
+    background: linear-gradient(90deg, rgba(255, 255, 224, 0.8) 0%, rgba(144, 238, 144, 0.8) 50%, rgba(0, 128, 0, 0.8) 100%); /* Light Yellow to Light Green to Full Green */
+    animation: flashBackground 1.5s ease-in-out infinite alternate;
+    transition: background-color 0.5s ease-in-out, box-shadow 0.3s ease-in-out;
+    box-shadow: 0 0 15px rgba(255, 255, 224, 0.5), 0 0 25px rgba(144, 238, 144, 0.7);
+}
+
+@keyframes flashBackground {
+    0% {
+        background: linear-gradient(90deg, rgba(255, 255, 224, 0.8) 0%, rgba(144, 238, 144, 0.8) 50%, rgba(0, 128, 0, 0.8) 100%);
+        box-shadow: 0 0 15px rgba(255, 255, 224, 0.5), 0 0 25px rgba(144, 238, 144, 0.7);
+    }
+    50% {
+        background: linear-gradient(90deg, rgba(144, 238, 144, 0.8) 0%, rgba(0, 128, 0, 0.8) 50%, rgba(255, 255, 224, 0.8) 100%);
+        box-shadow: 0 0 30px rgba(255, 255, 224, 0.8), 0 0 40px rgba(144, 238, 144, 0.9);
+    }
+    100% {
+        background: linear-gradient(90deg, rgba(0, 128, 0, 0.8) 0%, rgba(0, 128, 0, 0.8) 100%);
+        box-shadow: 0 0 15px rgba(0, 128, 0, 0.5), 0 0 25px rgba(0, 128, 0, 0.7);
+    }
+}
+
 #copyButton {
     display: none;
     position: absolute;
