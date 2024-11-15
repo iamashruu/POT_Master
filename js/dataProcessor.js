@@ -1,7 +1,7 @@
 // dataProcessor.js
 import { getFiles } from './fileHandler.js';
 import { displayOutput } from './uiHandler.js';
-import { sortResultsByMTI } from './utils.js';
+import { sortResultsByMTI,extractDate } from './utils.js';
 
 export function processFiles() {
     const files = getFiles();
@@ -33,7 +33,7 @@ export function processFiles() {
     let newData = [];
     let results = [];
     let filesProcessed = 0;
-
+    let date = null;
     Array.from(files).forEach((file) => {
         const reader = new FileReader();
         reader.onload = function () {
@@ -45,7 +45,11 @@ export function processFiles() {
                 (e) => e.includes(`[${rrn}]`) && searchPatterns.some((pattern) => e.includes(pattern))
             );
             // console.log(result)
-
+            
+            // Extract date from the first file only
+            if (date === null && result.length > 0) {
+                date = extractDate(result); // Only set the date once
+            }
             newData = newData.concat(result);
             filesProcessed++;
             if (filesProcessed === files.length) {
@@ -56,7 +60,10 @@ export function processFiles() {
                         results = results.concat(newResult);
                     });
                 }
-                displayOutput(results);
+
+ 
+            displayOutput(results, rrn, date); // Pass extracted date to displayOutput
+                // displayOutput(results,rrn);
             }
         };
         reader.readAsText(file);
