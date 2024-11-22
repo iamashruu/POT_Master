@@ -8,7 +8,7 @@
     <!-- <link rel="stylesheet" href="./css/newStyle.css" /> -->
 </head>
 <body>
-    <h1>POT Master v2.3</h1>
+    <h1>POT Master v2.4</h1>
 
     <label for="mtiInput">Enter MTIs (comma-separated):</label>
     <input type="text" id="mtiInput" />
@@ -21,9 +21,20 @@
 
     <label for="searchPatterns">Enter Search Patterns (Optional, comma-separated):</label>
     <input type="text" id="searchPatterns" placeholder="Default patterns will be used" />
-
+   
     <input type="file" id="fileInput" multiple />
+    <label for="displayPreference" class="checkbox-container">
+        
+        <input type="checkbox" id="displayPreference" />
+        <span class="checkmark"></span>
+        Remove Table
+    </label>
+    
     <button id="processButton">Process Files</button>
+   
+   
+    
+    
 
     <div id="outputContainer">
         <button id="copyButton" onclick="copyToClipboard()">Copy Results</button>

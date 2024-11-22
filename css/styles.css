@@ -134,3 +134,54 @@ button:hover {
 p {
     font-size: 16px;
 }
+
+
+/* style for checkbox preference */
+
+.checkbox-container {
+    display: inline-flex;
+    align-items: center;
+    cursor: pointer;
+    font-family: Arial, sans-serif;
+    font-size: 1em;
+    color: #333;
+    margin: 10px 0;
+    user-select: none; /* Prevent text selection when clicking */
+}
+
+.checkbox-container input[type="checkbox"] {
+    display: none; /* Hide the default checkbox */
+}
+
+.checkbox-container .checkmark {
+    width: 20px;
+    height: 20px;
+    border: 2px solid #000080;
+    border-radius: 4px;
+    position: relative;
+    margin-right: 10px;
+    background-color: #fff;
+    transition: background-color 0.3s, border-color 0.3s;
+}
+
+.checkbox-container input[type="checkbox"]:checked + .checkmark {
+    background-color: #4CAF50; /* Green background when checked */
+    border-color: #4CAF50;
+}
+
+.checkbox-container .checkmark:after {
+    content: "";
+    position: absolute;
+    top: 5px;
+    left: 5px;
+    width: 8px;
+    height: 8px;
+    background-color: #fff;
+    border-radius: 50%; /* Rounded inner dot */
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+}
+
+.checkbox-container input[type="checkbox"]:checked + .checkmark:after {
+    opacity: 1;
+}
