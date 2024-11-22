@@ -1,25 +1,9 @@
 // uiHandler.js
-
-document.addEventListener("DOMContentLoaded", () => {
-    const displayPreference = document.getElementById("displayPreference");
-
-    // Load preference from local storage on page load
-    const storedPreference = localStorage.getItem("displayPreference");
-    if (storedPreference !== null) {
-        const isChecked = JSON.parse(storedPreference); // Convert stored string back to boolean
-        displayPreference.checked = isChecked; // Set the checkbox state
-    }
-
-    // Save preference to local storage on change
-    displayPreference.addEventListener("change", () => {
-        const isChecked = displayPreference.checked; // Get checkbox state
-        localStorage.setItem("displayPreference", JSON.stringify(isChecked)); // Save state as a string
-    });
-});
+import { isRemoveTable } from "./Preference.js";
 
 export function displayOutput(output,rrn,date) {
 
-    
+   
     const outputDiv = document.getElementById("output");
     outputDiv.innerHTML = "";
 
@@ -27,7 +11,9 @@ export function displayOutput(output,rrn,date) {
         const notFoundText = document.createTextNode("Sorry, not found! Please check MTIs and RRN.");
         outputDiv.appendChild(notFoundText);
     } else {
-        if (!displayPreference) {
+        // console.log(isRemoveTable,typeof isRemoveTable,'display local storage preference')
+
+        if (!isRemoveTable) {
             outputDiv.innerHTML = `<table class="styled-table">
                                 <tr>
                                     <td class="label-cell">Date</td>
@@ -50,7 +36,7 @@ export function displayOutput(output,rrn,date) {
                                     <td>Fintech Point</td>
                                 </tr>
                             </table>`;
-        }else {
+        } else {
             outputDiv.innerHTML = "";
         }
         
@@ -65,7 +51,7 @@ export function displayOutput(output,rrn,date) {
             
             if (plainText.length === 0) {
                 // The line contains only spaces (or is empty), skip it
-                console.log('Removing blank or space-only line:', line);
+                // console.log('Removing blank or space-only line:', line);
             } else {
                 const lineElement = document.createElement("p");
                 lineElement.innerHTML = line;
