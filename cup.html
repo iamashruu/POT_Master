@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Field Extractor & TRX Generator</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; max-width: 600px; margin: auto; }
+        textarea { width: 100%; height: 150px; margin-bottom: 10px; }
+        button { display: block; margin-top: 10px; padding: 10px; cursor: pointer; }
+        pre { background: #f4f4f4; padding: 10px; border-radius: 5px; white-space: pre-wrap; word-wrap: break-word; }
+    </style>
+</head>
+<body>
+    <h1>Field Extractor & TRX Generator</h1>
+    <textarea id="inputText" placeholder="Enter text here..."></textarea>
+    <button id="extractButton">Extract & Generate TRX</button>
+    <pre id="output">No fields extracted yet.</pre>
+
+    <script>
+        document.getElementById("extractButton").addEventListener("click", extractFields);
+
+        function extractFields() {
+            const inputText = document.getElementById("inputText").value;
+            const fieldRegex = /Field (\d+)\s*=?\s*(?:\([^)]*\))?\s*\[([^\]]+)\]/g;
+            const subfieldRegex = /--(\d+(?:\.\d+)?)\s*:\s*\[([^\]]+)\]/g;
+            let data = {};
+
+            // Extract main fields
+            let match;
+            while ((match = fieldRegex.exec(inputText)) !== null) {
+                let fieldNumber = `Field ${match[1]}`;
+                let fieldValue = match[2].trim();
+                data[fieldNumber] = fieldValue;
+            }
+
+            // Extract subfields with correct parent field
+            const fieldBlocks = inputText.split(/(?=Field \d+)/);
+            for (let block of fieldBlocks) {
+                let parentMatch = /Field (\d+)/.exec(block);
+                if (!parentMatch) continue;
+                let parentField = `Field ${parentMatch[1]}`;
+
+                let subMatches = [...block.matchAll(subfieldRegex)];
+                for (let subMatch of subMatches) {
+                    let subfieldNumber = `${parentField}.${subMatch[1]}`;
+                    let subfieldValue = subMatch[2].trim();
+                    data[subfieldNumber] = subfieldValue;
+                }
+            }
+
+            // Extract required fields with default empty values if missing
+            const field2 = data["Field 2"] || "";
+            const field4 = data["Field 4"] || "";
+            const field49 = data["Field 49"] || "";
+            const field7 = data["Field 7"] || "";
+            const field11 = data["Field 11"] || "";
+            const field38 = data["Field 38"] || "";
+            const field15 = data["Field 15"] || "";
+            const field37 = data["Field 37"] || "";
+            const field32 = data["Field 32"] || "";
+            const field33 = data["Field 33"] || "";
+
+            // Newly added fields
+            const field18 = data["Field 18"] || "";
+            const field41 = data["Field 41"] || "";
+            const field42 = data["Field 42"] || "";
+            const field43 = data["Field 43"] || "";
+            const field100 = data["Field 100"] || "";
+            const field6_2_5 = data["Field 60.2.5"] || "";
+            const field25 = data["Field 25"] || "";
+            const field19 = data["Field 19"] || "";
+            const field60_3_5 = data["Field 60.3.5"] || "";
+            const field60_3_9 = data["Field 60.3.9"] || "0";
+            const field60_2_8 = data["Field 60.2.8"] || "";
+            const field60_3_10 = data["Field 60.3.10"] || "00";
+            const field60_3_8 = data["Field 60.3.8"] || "";
+            const field22 = data["Field 22"] || "";
+            const field5 = data["Field 5"] || "";
+            const field50 = data["Field 50"] || "840";
+            const field9 = data["Field 9"] || "20000100";
+            const field6 = data["Field 6"] || "";
+            const field51 = data["Field 51"] || "";
+            const field10 = data["Field 10"] || "";
+            //const field28 = data["Field 28"] || "";
+
+            // Manually construct TRX string
+            let trxString = `101C000${field2}   ${field4}${field49}${field7}${field11}${field38}${field15}${field37}${field32}   ${field33}   `
+                          + `${field18}${field41}${field42}${field43}`+`0000000000000000000000000001000000000`+`${field100}   ${field100}   0${field6_2_5}R`+`           `
+                          +`${field25}${field19}`
+                          + `${field60_3_5}100${field60_3_9}00   ${field60_2_8}${field60_3_10}${field60_3_8}1     `
+                          + `${field22}00 ${field4}${field50}${field9}${field6}${field51}${field10}C0000000000084020000000CUPF                                       `;
+
+            // Output results
+            let result = {
+                extractedData: data,
+                trxString: trxString
+            };
+
+            document.getElementById("output").textContent = JSON.stringify(result, null, 2);
+        }
+    </script>
+</body>
+</html>
