@@ -185,3 +185,27 @@ p {
 .checkbox-container input[type="checkbox"]:checked + .checkmark:after {
     opacity: 1;
 }
+/*  nav starts*/
+
+.nav-link-container {
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.nav-link {
+    display: inline-block;
+    background-color: #4CAF50;
+    color: white;
+    font-weight: bold;
+    text-decoration: none;
+    padding: 10px 20px;
+    border-radius: 6px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    font-size: 1rem;
+}
+
+.nav-link:hover {
+    background-color: #388e3c;
+    transform: scale(1.05);
+}
+
