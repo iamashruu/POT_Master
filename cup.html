@@ -3,17 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Field Extractor & TRX Generator</title>
+    <title>Generate Cup Incoming File</title>
     <style>
         body { font-family: Arial, sans-serif; padding: 20px; max-width: 600px; margin: auto; }
         textarea { width: 100%; height: 150px; margin-bottom: 10px; }
         button { display: block; margin-top: 10px; padding: 10px; cursor: pointer; }
         pre { background: #f4f4f4; padding: 10px; border-radius: 5px; white-space: pre-wrap; word-wrap: break-word; }
     </style>
+     <link rel="stylesheet" href="./css/styles.css" />
 </head>
 <body>
-    <h1>Field Extractor & TRX Generator</h1>
-    <textarea id="inputText" placeholder="Enter text here..."></textarea>
+    <h1>Generate Cup Incoming File</h1>
+    <textarea id="inputText" placeholder="Enter message 0100 and 0110 from UPI log file..."></textarea>
     <button id="extractButton">Extract & Generate TRX</button>
     <pre id="output">No fields extracted yet.</pre>
 
@@ -99,6 +100,14 @@
 
             document.getElementById("output").textContent = JSON.stringify(result, null, 2);
         }
+
+        <div id="outputContainer">
+        <div id="output">
+            <p>Welcome To <strong>POT Master!</strong> Supercharge your productivity by 2000x! 🚀 Say goodbye to wasted time and enjoy your saving times.😎Developed by <a href="https://bd.linkedin.com/in/iamashruu" title="Ashraf's LinkedIn profile">Ashraf</a>, If you encounter any challenges or have suggestions, don't hesitate to reach out! Your feedback fuels product growth. 💬</p>
+            <p>Thanks for being part of this journey – Together, we can make work more productive and fun! ❤️</p>
+        </div>
+        
+    </div>
     </script>
 </body>
 </html>
